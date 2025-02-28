@@ -1,0 +1,83 @@
+<!-- index.hbs -->
+<h1>The server is running!</h1>
+<p>If you see this text, the server is <strong>definitely</strong> working!</p>
+
+{{!-- Create a table --}}
+<table id="Customers-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, name, planet and affiliation, in order --}}
+        {{#each data}}
+        <tr data-value="{{this.customer_id}}">
+            <td>{{this.customer_id}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.planet}}</td>
+            <td>{{this.affiliation}}</td>
+            <td><button onclick="deleteCustomer({{this.customer_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_customer.js"></script>
+
+
+<!-- /views/index.hbs -->
+
+{{!-- Form to add a record to the table  --}}
+<h2>Adding Data with AJAX</h2>
+<p>To add a new Customer, please enter their information below and click 'Submit'!</p>
+<form id="add-customer-form-ajax">
+    <label for="input-name">Name: </label>
+    <input type="text" name="input-name" id="input-name">
+    
+    <label for="input-planet">Planet: </label>
+    <input type="text" name="input-planet" id="input-planet">
+
+    <label for="input-affiliation">Affiliation: </label>
+    <input type="text" name="input-affiliation" id="input-affiliation">
+
+    <input type="submit">
+</form>
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_customer.js"></script>
+
+<h2>Updating Customer Info</h2>
+<p>To update a specific user's homeworld select their name from the drop-down menu on the left and their desired homeworld from the drop down menu on the right</p>
+<form id="update-customer-form-ajax">
+
+    <label for="input-name">Full name: </label>
+    <select name="input-name" id="mySelect">
+        <option value="test">Select a Customer</option>
+        {{#each data}}
+        <option value="{{this.customer_id}}">{{this.name}} </option>
+        {{/each}}
+    </select>
+
+    <label for="input-planet">Planet: </label>
+    <input type="text" id="input-planet-update" name="input-planet" placeholder="Enter planet name">
+
+    <label for="input-affiliation">Affiliation: </label>
+    <input type="text" id="input-affiliation-update" name="input-affiliation" placeholder="Enter affiliation">
+    
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_customer.js"></script>
